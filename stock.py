@@ -2,6 +2,16 @@ import tkinter as tk
 from tkinter import *
 from PIL import ImageTk, Image
 
+def AddSeed(invID, newPN, newCount, newDesc):
+    inventory = {}
+    seedStock = {}
+    inventory["Part Number"] = newPN
+    inventory["Count"] = newCount
+    inventory["Description"] = newDesc
+    seedStock[invID] = inventory
+    with open('test.txt', 'w') as fp:
+        fp.write(str(seedStock))
+
 def Menu():
     print("\nMenu: \n1: Start New Seed Stock \n2: Add Seed Stock \n3: Get Seed Stock")
     selection = input("\nPlease select an option: ")
@@ -12,14 +22,8 @@ def Menu():
         newCount = input("What is the count for this part? ")
         newDesc = input("Please enter the part description: ")
 
-        inventory = {}
-        seedStock = {}
-        inventory["Part Number"] = newPN
-        inventory["Count"] = newCount
-        inventory["Description"] = newDesc
-        seedStock[invID] = inventory
-        with open('test.txt', 'w') as fp:
-            fp.write(str(seedStock))
+        AddSeed(invID, newPN, newCount, newDesc)
+
             
     elif(selection == '2'):
 
@@ -86,12 +90,55 @@ def make_window():
     def newSeedStockMenu():
         clearWindow() #clears the window to add more stuff
 
-        title_label = tk.Label(root, text="Test", font=("Arial", 10))
-        back_button = Button(root, text ="Back to menu", command = mainMenu)
+        title_label = tk.Label(root, text="Start New Seed Stock", font=("Arial", 10))
         
-        #adds more stuff
-        title_label.pack(pady=10)
-        back_button.pack(pady=10)
+        
+        #the comments are references to the original code
+        #invID = input("Enter the new ID for the new Seed Stock: ")
+        invID = tk.Label(root, text="ID: ", font=("Arial", 10))
+        e1 = Entry(root)
+        
+        #newPN = input("Please enter the Part Number: ")
+        newPN = tk.Label(root, text="Part Number: ", font=("Arial", 10))
+        e2 = Entry(root)
+        
+        #newCount = input("What is the count for this part? ")
+        newCount = tk.Label(root, text="Count: ", font=("Arial", 10))
+        e3 = Entry(root)
+        
+        #newDesc = input("Please enter the part description: ")
+        newDesc = tk.Label(root, text="Description: ", font=("Arial", 10))
+        e4 = Entry(root)
+
+        cur_y = 0
+        x_pos = [150, 250]
+        #places stuff down
+        title_label.place(anchor=N, x=200, y=cur_y)
+        cur_y += 35
+        
+        invID.place(anchor=N, x=x_pos[0], y=cur_y)
+        e1.place(anchor=N, x=x_pos[1], y=cur_y)
+        cur_y += 35
+
+        newPN.place(anchor=N, x=x_pos[0], y=cur_y)
+        e2.place(anchor=N, x=x_pos[1], y=cur_y)
+        cur_y += 35
+
+        newCount.place(anchor=N, x=x_pos[0], y=cur_y)
+        e3.place(anchor=N, x=x_pos[1], y=cur_y)
+        cur_y += 35
+
+        newDesc.place(anchor=N, x=x_pos[0], y=cur_y)
+        e4.place(anchor=N, x=x_pos[1], y=cur_y)
+        cur_y += 35
+        
+        #buttons for adding and canceling
+        add_button = Button(root, text ="Add New Seed Stock", command = AddSeed(e1.get(), e2.get(), e3.get(), e4.get()))
+        back_button = Button(root, text ="Back to menu", command = mainMenu)
+
+        add_button.place(anchor=N, x=200, y=cur_y)
+        cur_y += 35
+        back_button.place(anchor=N, x=200, y=cur_y)
     
     def addSeedStockMenu():
         clearWindow() #clears the window to add more stuff
